@@ -1,0 +1,80 @@
+﻿<Window x:Class="WpfAppMCF8.Window5"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppMCF8"
+        mc:Ignorable="d"
+        Title="Документы" Height="400" Width="450" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="tableTableChastViewSource" d:DesignSource="{d:DesignInstance {x:Type local:TableTableChast}, CreateList=True}"/>
+        <CollectionViewSource x:Key="tableDocViewSource" d:DesignSource="{d:DesignInstance {x:Type local:TableDoc}, CreateList=True}"/>
+        <CollectionViewSource x:Key="edIzmViewSource" d:DesignSource="{d:DesignInstance {x:Type local:EdIzm}, CreateList=True}"/>
+        <CollectionViewSource x:Key="kontragentViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Kontragent}, CreateList=True}"/>
+        <CollectionViewSource x:Key="nomenklaturaViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Nomenklatura}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource tableTableChastViewSource}">
+        <DataGrid x:Name="tableTableChastDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource tableTableChastViewSource}}" Margin="9,121,14,55" RowDetailsVisibilityMode="VisibleWhenSelected" CurrentCellChanged="tableTableChastDataGrid_CurrentCellChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idColumn" Binding="{Binding Id}" Header="Id" Width="SizeToHeader"/>
+                <DataGridComboBoxColumn x:Name="nomenklaturaColumn" ItemsSource="{Binding Source={StaticResource nomenklaturaViewSource}}" Header="Nomenklatura" DisplayMemberPath="Naimenovanie" 
+                                        SelectedValuePath="Id"
+                                        SelectedValueBinding="{Binding Nomenklatura}" Width="SizeToHeader"/>
+                <DataGridComboBoxColumn x:Name="edIzmColumn" ItemsSource="{Binding Source={StaticResource edIzmViewSource}}" Header="Ed Izm" DisplayMemberPath="Naimenovanie" 
+                                        SelectedValuePath="Id"
+                                        SelectedValueBinding="{Binding EdIzm}" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="kolichestvoColumn" Binding="{Binding Kolichestvo}" Header="Kolichestvo" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="cenaColumn" Binding="{Binding Cena}" Header="Cena" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="summaColumn" Binding="{Binding Summa}" Header="Summa" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="uidColumn" Binding="{Binding uid}" Header="uid" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+      
+        <Label Content="Приходная накладная" HorizontalAlignment="Center" Margin="16,12,0,0" VerticalAlignment="Top" Width="167" FontWeight="Bold" FontSize="14"/>
+        <Grid x:Name="grid1" DataContext="{StaticResource tableDocViewSource}" HorizontalAlignment="Left" Margin="12,42,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Data Doc:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <DatePicker x:Name="dataDocDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding DataDoc, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid x:Name="grid2" DataContext="{StaticResource tableDocViewSource}" HorizontalAlignment="Left" Margin="224,42,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Nomer Doc:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox x:Name="nomerDocTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding NomerDoc, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+        </Grid>
+        <Grid x:Name="grid3" DataContext="{StaticResource tableDocViewSource}" HorizontalAlignment="Left" Margin="11,77,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Kontragent:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="kontragentComboBox" Grid.Column="1"  HorizontalAlignment="Left" Height="Auto" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120" 
+                      ItemsSource="{Binding Source={StaticResource kontragentViewSource}}" SelectedValue="{Binding Kontragent}" 
+                      DisplayMemberPath="Naimenovanie" SelectedValuePath="Id">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+        </Grid>
+        <Button Content="Save changes" HorizontalAlignment="Left" Margin="340,328,0,0" VerticalAlignment="Top" Width="89" Click="Button_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="259,329,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="174,329,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
+
+    </Grid>
+</Window>

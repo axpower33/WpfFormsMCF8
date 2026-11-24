@@ -1,0 +1,36 @@
+﻿<Window x:Class="WpfAppMCF8.Window4"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppMCF8"
+        mc:Ignorable="d"
+        Title="Список документов" Height="320" Width="450" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="tableDocViewSource" d:DesignSource="{d:DesignInstance {x:Type local:TableDoc}, CreateList=True}"/>
+        <CollectionViewSource x:Key="kontragentViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Kontragent}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource tableDocViewSource}">
+        <DataGrid x:Name="tableDocDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource tableDocViewSource}}" Margin="11,39,14,42" RowDetailsVisibilityMode="VisibleWhenSelected" MouseDoubleClick="tableDocDataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="idColumn" Binding="{Binding Id}" Header="Id" Width="SizeToHeader"/>
+                <DataGridTemplateColumn x:Name="dataDocColumn" Header="Data Doc" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding DataDoc, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn x:Name="nomerDocColumn" Binding="{Binding NomerDoc}" Header="Nomer Doc" Width="SizeToHeader"/>
+                <DataGridComboBoxColumn x:Name="kontragentColumn" ItemsSource="{Binding Source={StaticResource kontragentViewSource}, Mode=OneWay}" Header="Kontragent" DisplayMemberPath="Naimenovanie" 
+                                        SelectedValuePath="Id"
+                                        SelectedValueBinding="{Binding Kontragent}" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="uidColumn" Binding="{Binding uid}" Header="uid" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Список приходных документов" HorizontalAlignment="Center" Margin="114,7,96,0" VerticalAlignment="Top" Width="232" FontWeight="Bold" FontSize="14"/>
+        <Button Content="Save changes" HorizontalAlignment="Left" Margin="328,255,0,0" VerticalAlignment="Top" Width="89" Click="Button_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="246,255,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="164,255,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
+    </Grid>
+</Window>
